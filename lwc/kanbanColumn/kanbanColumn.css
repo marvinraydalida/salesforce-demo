@@ -1,0 +1,19 @@
+.kanban-column {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    width: 100%;
+}
+
+.kanban-header {
+    background-color: blue;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.kanban-header h1 {
+    color: white;
+}

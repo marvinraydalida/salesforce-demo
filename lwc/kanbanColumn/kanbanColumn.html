@@ -1,0 +1,19 @@
+<template>
+    <div class="kanban-column">
+        <div class="kanban-header">
+            <h1>{kanbanStatus}</h1>
+        </div>
+        <div class="slds-border_right" style="height: 500px;">
+            <ul>
+                <template for:each={getTasks} for:item="task">
+                    <li key={task.Id}>
+                        <div class="slds-m-around_xx-small slds-p-around_x-small slds-box">
+                            <p>{task.Name} asfd</p>
+                            <p>{task.Description__c} asdf</p>
+                        </div>
+                    </li>
+                </template>
+            </ul>   
+        </div>
+    </div>
+</template>

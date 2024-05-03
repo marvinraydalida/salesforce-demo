@@ -1,0 +1,18 @@
+<template>
+    <div class="slds-p-around_small">
+        <!-- <div class="slds-grid">
+            <template for:each={status} for:item="status" for:index="i">
+                <div key={status} class="slds-col">
+                    <c-kanban-column kanban-status={status}></c-kanban-column>
+                </div> 
+            </template>
+        </div> -->
+        <div class="demo-only demo-only--sizing slds-grid slds-wrap">
+            <template for:each={status} for:item="status" for:index="i">
+                <div key={status} class={spanSize}>
+                    <c-kanban-column kanban-status={status}></c-kanban-column>
+                </div> 
+            </template>
+        </div>
+    </div>
+</template>

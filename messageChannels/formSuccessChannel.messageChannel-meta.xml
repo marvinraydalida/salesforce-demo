@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>FormSuccessChannel</masterLabel>
+    <isExposed>true</isExposed>
+    <description>This is a sample Lightning Message Channel.</description>
+</LightningMessageChannel>
+
+<!-- 
+    https://developer.salesforce.com/docs/atlas.en-us.248.0.api_meta.meta/api_meta/meta_lightningmessagechannel.htm
+ -->
+
+<!-- 
+import FORM_SUCCESS_CHANNEL from '@salesforce/messageChannel/FormSuccessChannel__c';
+import { publish, MessageContext } from 'lightning/messageService';
+
+with no fields
+
+publish(this.messageContext, FORM_SUCCESS_CHANNEL, {});
+ -->
+
+<!-- with fields for future reference -->
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>SampleMessageChannel</masterLabel>
+    <isExposed>true</isExposed>
+    <description>This is a sample Lightning Message Channel.</description>
+    <lightningMessageFields>
+        <fieldName>recordId</fieldName>
+        <description>This is the record Id that changed</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>recordData</fieldName>
+        <description>The current data representing the record that changed</description>
+    </lightningMessageFields>
+</LightningMessageChannel> -->
+
+<!-- 
+    const message = {
+        recordId: 'exampleRecordId',
+        recordData: { /* Your record data object here */ }
+    };
+    publish(this.messageContext, SAMPLE_MESSAGE_CHANNEL, message);
+ -->
