@@ -1,0 +1,78 @@
+.kanban-header-container {
+    position: relative;
+}
+
+.kanban-header-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    right: -35px;
+    z-index: 3;
+    transform: skew(40deg) translateZ(0);
+}
+
+.kanban-header-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    right: -35px;
+    z-index: 3;
+    transform: skew(-40deg) translateZ(0);
+}
+
+.kanban-header {
+    background-color: #0176D3;
+    height: 50px;
+    /* width: 100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 3px 0px 0px 3px;
+}
+
+.kanban-header-chevron {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 50px;
+    width: 25px;
+    background-color: #0176D3;
+    right: -25px;
+    z-index: 1;
+    /* transform: skew(28deg) translateZ(0); */
+}
+
+.kanban-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 25px;
+    width: 3px;
+    background-color: white;
+    right: -13px;
+    z-index: 3;
+    transform: skew(40deg) translateZ(0);
+}
+
+.kanban-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 25px;
+    width: 3px;
+    background-color: white;
+    right: -13px;
+    z-index: 3;
+    transform: skew(-40deg) translateZ(0);
+}
+
+.kanban-header h1 {
+    color: white;
+}
