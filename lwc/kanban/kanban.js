@@ -14,7 +14,7 @@ export default class Kanban extends LightningElement {
         return `slds-size_1-of-${this.statusList.data.length}`;
     }
 
-    get headerSanSize() {
+    get headerSpanSize() {
         return `slds-size_1-of-${this.statusList.data.length} kanban-header`;
     }
 }
