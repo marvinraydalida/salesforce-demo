@@ -1,7 +1,9 @@
 import getStatus from '@salesforce/apex/CustomTaskController.getStatus';
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 
 export default class Kanban extends LightningElement {
+
+    @api recordId
 
     @wire(getStatus)
     statusList

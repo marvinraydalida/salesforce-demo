@@ -6,17 +6,20 @@ import FORM_SUCCESS_CHANNEL from '@salesforce/messageChannel/FormSuccessChannel_
 import { LightningElement, api, track, wire } from 'lwc';
 
 export default class KanbanColumn extends LightningElement {
+
     @api kanbanStatus
+    @api recordId
 
     @wire(MessageContext)
     messageContext;
 
     subscription;
 
-    @wire(getKanbanTask, {kanbanStatus: "$kanbanStatus"})
+    @wire(getKanbanTask, {kanbanStatus: "$kanbanStatus", recordId: "$recordId"})
     tasks
 
     connectedCallback() {
+        console.log('test connected id', this.recordId);
         this.subscribeToMessageChannel();
     }
 

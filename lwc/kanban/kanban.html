@@ -19,7 +19,7 @@
         <div class="demo-only demo-only--sizing slds-grid slds-wrap">
             <template for:each={status} for:item="status" for:index="i">
                 <div key={status} class={spanSize}>
-                    <c-kanban-column kanban-status={status}></c-kanban-column>
+                    <c-kanban-column kanban-status={status} record-id={recordId}></c-kanban-column>
                 </div> 
             </template>
         </div>

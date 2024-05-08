@@ -1,4 +1,4 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getStatus from '@salesforce/apex/CustomTaskController.getStatus';
 import FORM_SUCCESS_CHANNEL from '@salesforce/messageChannel/FormSuccessChannel__c';
@@ -11,6 +11,8 @@ export default class CustomTaskForm extends LightningElement {
 
     @wire(MessageContext)
     messageContext;
+
+    @api recordId
 
     handleReset(event) {
         const inputFields = this.template.querySelectorAll("lightning-input-field");
@@ -26,6 +28,7 @@ export default class CustomTaskForm extends LightningElement {
         const fields = {...event.detail.fields};
         console.log('Submit status :>>', this.statusList.data[0]);
         fields.Status__c = this.statusList.data[0];
+        fields.Parent_Task__c = this.recordId;
         this.refs.customTaskForm.submit(fields);
     }
 

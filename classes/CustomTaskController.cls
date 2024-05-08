@@ -18,7 +18,12 @@ public with sharing class CustomTaskController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<CustomTask__c> getKanbanTask(String kanbanStatus) {
-        return [SELECT Id, Name, Description__c, Status__c FROM CustomTask__c WHERE Status__c = :kanbanStatus ORDER BY Name DESC];
+    public static List<CustomTask__c> getKanbanTask(String kanbanStatus, Id recordId) {
+        System.debug('kanbanStatus: ');
+        System.debug(kanbanStatus);
+        System.debug('\n ####################################################');
+        System.debug('recordId: ');
+        System.debug(recordId);
+        return [SELECT Id, Name, Description__c, Status__c, Parent_Task__c FROM CustomTask__c WHERE Status__c = :kanbanStatus AND Parent_Task__c = :recordId ORDER BY Name DESC];
     }
 }
