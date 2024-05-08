@@ -2,10 +2,11 @@ import getKanbanTask from '@salesforce/apex/CustomTaskController.getKanbanTask';
 import { refreshApex } from '@salesforce/apex';
 import { subscribe, MessageContext } from 'lightning/messageService';
 import FORM_SUCCESS_CHANNEL from '@salesforce/messageChannel/FormSuccessChannel__c';
+import { NavigationMixin } from 'lightning/navigation';
 
 import { LightningElement, api, track, wire } from 'lwc';
 
-export default class KanbanColumn extends LightningElement {
+export default class KanbanColumn extends NavigationMixin(LightningElement) {
 
     @api kanbanStatus
     @api recordId
@@ -37,9 +38,24 @@ export default class KanbanColumn extends LightningElement {
 
     disconnectedCallback() {
         if (this.subscription) {
-            this.subscription.unsubscribe();
+            // this.subscription.unsubscribe();
             this.subscription = null;
         }
+    }
+
+    handleNavigateToRecord(event) {
+        event.preventDefault();
+
+        const recordId = event.target.dataset.recordId;
+        console.log('check navigationId :>>', recordId)
+        console.log('check event :>> ',event.target)
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: recordId,
+                actionName: 'view'
+            }
+        });
     }
 
     get getTasks() {
