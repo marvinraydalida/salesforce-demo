@@ -11,7 +11,7 @@ export default class KanbanColumn extends NavigationMixin(LightningElement) {
 
     @api kanbanStatus
     @api recordId
-    droppedRecordId
+    @api isDropped = false
 
     @wire(MessageContext)
     messageContext;
@@ -21,7 +21,7 @@ export default class KanbanColumn extends NavigationMixin(LightningElement) {
     @wire(getKanbanTask, {kanbanStatus: "$kanbanStatus", recordId: "$recordId"})
     tasks
 
-    @wire(updateTaskStatus, {kanbanStatus: "$kanbanStatus", doppedRecordId: "$droppedRecordId"})
+    @wire(updateTaskStatus)
     updateTaskStatus
 
     @api
@@ -63,15 +63,23 @@ export default class KanbanColumn extends NavigationMixin(LightningElement) {
     async drop(event) { 
         const id = event.dataTransfer.getData('itemId');
         const status = event.dataTransfer.getData('status');
-        if(id != this.droppedRecordId && this.kanbanStatus != status) {
+        if(this.kanbanStatus != status && !this.isDropped) {
             console.log(`dropped at ${this.kanbanStatus}`);
             console.log('id :>>', id);
-            this.droppedRecordId = id;
+            //Prevents multiple drop event and update
+            this.isDropped = true;
 
             try {
                 await updateTaskStatus({ kanbanStatus: this.kanbanStatus, doppedRecordId: id });
-                refreshApex(this.tasks);
-                let refreshKanban = CustomEvent('refresh');
+                let refreshKanban = CustomEvent(
+                    'refresh',
+                    {
+                        detail: {
+                            from: status,
+                            to: this.kanbanStatus
+                        }
+                    }
+                );
                 this.dispatchEvent(refreshKanban);
             }
             catch(e) {

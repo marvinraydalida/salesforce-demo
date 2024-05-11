@@ -31,7 +31,13 @@ public with sharing class CustomTaskController {
     public static CustomTask__c updateTaskStatus(String kanbanStatus, String doppedRecordId) {
         List<String> splitRecordId = doppedRecordId.split('-');
         Id recordId = Id.valueOf(splitRecordId[0]);
-        CustomTask__c droppedTask = [SELECT Id, Status__c FROM CustomTask__c WHERE Id  = :recordId];
+        CustomTask__c droppedTask = [SELECT Id, Status__c, Start_Date__c, End_Date__c FROM CustomTask__c WHERE Id  = :recordId];
+        if(kanbanStatus == 'In Progress' && droppedTask.Start_Date__c == null) {
+            droppedTask.Start_Date__c = Date.today();
+        }
+        if(kanbanStatus == 'Completed' && droppedTask.End_Date__c == null) {
+            droppedTask.End_Date__c = Date.today();
+        }
         droppedTask.Status__c = kanbanStatus;
         update droppedTask;
         return droppedTask;
