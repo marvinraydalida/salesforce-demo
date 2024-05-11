@@ -8,6 +8,15 @@ export default class Kanban extends LightningElement {
     @wire(getStatus)
     statusList
 
+    handleKanbanRefresh(event) {
+        console.log('event handle refresh', event);
+        const kanbanColumns = this.template.querySelectorAll('c-kanban-column');
+        console.log('kanbanColumns :>>', kanbanColumns );
+        kanbanColumns.forEach((column) => {
+            column.handleRefresh();
+        })
+    }
+
     get status() {
         return this.statusList.data;
     }

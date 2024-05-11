@@ -1,4 +1,5 @@
 import getKanbanTask from '@salesforce/apex/CustomTaskController.getKanbanTask';
+import updateTaskStatus from '@salesforce/apex/CustomTaskController.updateTaskStatus';
 import { refreshApex } from '@salesforce/apex';
 import { subscribe, MessageContext } from 'lightning/messageService';
 import FORM_SUCCESS_CHANNEL from '@salesforce/messageChannel/FormSuccessChannel__c';
@@ -10,6 +11,7 @@ export default class KanbanColumn extends NavigationMixin(LightningElement) {
 
     @api kanbanStatus
     @api recordId
+    droppedRecordId
 
     @wire(MessageContext)
     messageContext;
@@ -19,8 +21,67 @@ export default class KanbanColumn extends NavigationMixin(LightningElement) {
     @wire(getKanbanTask, {kanbanStatus: "$kanbanStatus", recordId: "$recordId"})
     tasks
 
+    @wire(updateTaskStatus, {kanbanStatus: "$kanbanStatus", doppedRecordId: "$droppedRecordId"})
+    updateTaskStatus
+
+    @api
+    handleRefresh() {
+        refreshApex(this.tasks);
+    }
+
+    renderedCallback() {
+        console.log('hey rendered');
+        const unorederedList = this.template.querySelector("ul");
+        console.log("unorederedList:>>",unorederedList);
+
+        unorederedList.addEventListener('dragover', this.dragOver.bind(this));
+        unorederedList.addEventListener('drop', this.drop.bind(this));
+        console.log('added listener');
+
+        const items = unorederedList.querySelectorAll("li");
+        console.log('items :>>', items);
+
+        items.forEach((item) => {
+            item.addEventListener('dragstart', this.dragStart.bind(this));
+            console.log('item added listener')
+        })
+    }
+
+    dragStart(event) {
+        event.stopPropagation();
+        console.log("start drag event :>>", event);
+        console.log("dragged id :>>", event.target.id)
+        event.dataTransfer.setData('itemId', event.target.id);
+        event.dataTransfer.setData('status', this.kanbanStatus);
+    }
+
+    dragOver(event) {
+        event.preventDefault();
+        console.log('dragging over');
+    }
+
+    async drop(event) { 
+        const id = event.dataTransfer.getData('itemId');
+        const status = event.dataTransfer.getData('status');
+        if(id != this.droppedRecordId && this.kanbanStatus != status) {
+            console.log(`dropped at ${this.kanbanStatus}`);
+            console.log('id :>>', id);
+            this.droppedRecordId = id;
+
+            try {
+                await updateTaskStatus({ kanbanStatus: this.kanbanStatus, doppedRecordId: id });
+                refreshApex(this.tasks);
+                let refreshKanban = CustomEvent('refresh');
+                this.dispatchEvent(refreshKanban);
+            }
+            catch(e) {
+
+            }
+        }
+    }
+
     connectedCallback() {
-        console.log('test connected id', this.recordId);
+        console.log('test connected id sadsa', this.recordId);
         this.subscribeToMessageChannel();
     }
 
@@ -32,8 +93,7 @@ export default class KanbanColumn extends NavigationMixin(LightningElement) {
 
     handleMessage(message) {
         console.log('Check if subscribed 🚀🚀🚀🚀');
-
-        refreshApex(this.tasks);
+        this.handleRefresh();
     }
 
     disconnectedCallback() {

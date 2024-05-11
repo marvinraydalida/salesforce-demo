@@ -26,4 +26,14 @@ public with sharing class CustomTaskController {
         System.debug(recordId);
         return [SELECT Id, Name, Description__c, Status__c, Parent_Task__c FROM CustomTask__c WHERE Status__c = :kanbanStatus AND Parent_Task__c = :recordId ORDER BY Name DESC];
     }
+
+    @AuraEnabled
+    public static CustomTask__c updateTaskStatus(String kanbanStatus, String doppedRecordId) {
+        List<String> splitRecordId = doppedRecordId.split('-');
+        Id recordId = Id.valueOf(splitRecordId[0]);
+        CustomTask__c droppedTask = [SELECT Id, Status__c FROM CustomTask__c WHERE Id  = :recordId];
+        droppedTask.Status__c = kanbanStatus;
+        update droppedTask;
+        return droppedTask;
+    }
 }

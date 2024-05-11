@@ -1,14 +1,14 @@
 <template>
     <div class="kanban-column">
         <div class="slds-border_right" style="height: 500px;">
-            <ul>
+            <ul style="height: 100%;">
                 <template for:each={getTasks} for:item="task">
-                    <li key={task.Id}>
-                        <div class="slds-m-around_xx-small slds-p-around_x-small slds-box">
-                            <a href="#">
-                                <p class="slds-text-heading_small" onclick={handleNavigateToRecord} data-record-id={task.Id}>{task.Name}</p>
+                    <li key={task.Id} draggable="true" class="task-item" id={task.Id}>
+                        <div class="slds-m-around_xx-small slds-p-around_x-small slds-box" draggable="false">
+                            <a href="#" draggable="false">
+                                <p class="slds-text-heading_small" onclick={handleNavigateToRecord} data-record-id={task.Id} draggable="false">{task.Name}</p>
                             </a>
-                            <p>{task.Description__c}</p>
+                            <p draggable="false">{task.Description__c}</p>
                         </div>
                     </li>
                 </template>
